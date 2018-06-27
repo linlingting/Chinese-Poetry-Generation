@@ -26,15 +26,15 @@ is either missing or outdated.
 
 ## Package Dependencies
 
-Python 3.6.5
+* Python 3.6.5
 
-[Numpy 1.14.4](http://www.numpy.org/)
+* [Numpy 1.14.4](http://www.numpy.org/)
 
-[TensorFlow 1.8](https://www.tensorflow.org/)
+* [TensorFlow 1.8](https://www.tensorflow.org/)
 
-[Jieba 0.39](https://github.com/fxsjy/jieba)
+* [Jieba 0.39](https://github.com/fxsjy/jieba)
 
-[Gensim 2.0.0](https://radimrehurek.com/gensim/)
+* [Gensim 2.0.0](https://radimrehurek.com/gensim/)
 
 
 ## Data Processing
@@ -85,7 +85,7 @@ it should return a kind of gibberish poem.
 It's up to you to decide how to improve the models and training methods
 to make them work better.
 
-## How to Improve This
+## Improve It
 
 * To add data processing tools, consider adding dependency configs into
 \_\_dependency\_dict in [paths.py](./paths.py).
