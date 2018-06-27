@@ -1,77 +1,99 @@
-# RNN-based Poem Generator
+# Planning-based Poetry Generation
 
 A classical Chinese quatrain generator based on the RNN encoder-decoder framework.
 
-Two 4-layer LSTM networks are used as encoder and decoder respectively.
-The encoder takes as input four keywords provided by a poem planner,
-and the decoder generates a quatrain character by character.<sup> [1]</sup>
+Here I tried to implement the planning-based architecture purposed in 
+[Zhe Wang et al. <i>Chinese Poetry Generation with Planning based Neural Network</i>. 2016](https://arxiv.org/abs/1610.09889),
+whereas technical details might be different from the original paper.
+My intent of doing this was not to refine the neural network model and give better results by myself.
+Rather, I wish to <b>provide a simple framework as said in the paper along with
+convenient data processing toolkits</b> for all those want to experiment their
+ideas on this interesting task.
 
-The original repository is [here](https://github.com/DevinZ1993/Chinese-Poetry-Generation), 
-where there are also a bunch of raw data files necessary to train the model.
-The raw data files were downloaded from the Internet, mostly from similar open source projects.
+The project was refactored into Python3 in Jun 2018 using TensorFlow 1.8.
 
-    raw/
-    ├── ming.all
-    ├── pinyin.txt
-    ├── qing.all
-    ├── qsc_tab.txt
-    ├── qss_tab.txt
-    ├── qtais_tab.txt
-    ├── qts_tab.txt
-    ├── shixuehanying.txt
-    ├── stopwords.txt
-    └── yuan.all
+## Structure of Code
 
-## Dependencies
+![Structure of Code](img/structure.jpg)
 
-Python 2.7
+The diagram above demonstrates primary data and code dependencies
+of this project.
+Here I tried to organize code around data,
+and make every data processing module a singleton.
+Batch processing is only done when the produced result
+is either missing or outdated.
 
-[TensorFlow 1.0](https://www.tensorflow.org/)
 
-[Jieba 0.38](https://github.com/fxsjy/jieba)
+## Package Dependencies
+
+Python 3.6.5
+
+[Numpy 1.14.4](http://www.numpy.org/)
+
+[TensorFlow 1.8](https://www.tensorflow.org/)
+
+[Jieba 0.39](https://github.com/fxsjy/jieba)
 
 [Gensim 2.0.0](https://radimrehurek.com/gensim/)
 
 
+## Data Processing
+
+Run the following command to generate training data from source text data:
+
+  ./data\_utils.py
+
+Depending on your hardware, this can take you a cup of tea or over one hour.
+The keyword extraction is based on the TextRank algorithm,
+which can take a long time to converge.
+
 ## Training
 
-To begin with, you should process the raw data to generate the training data:
+The poem planner was based on Gensim's Word2Vec module.
+To train it, simply run:
 
-    python data_utils.py
+  ./train.py -p
 
-The TextRank algorithm may take many hours to run.
-Instead, you could choose to stop it early by typing ctrl+c to interrupt the iterations,
-when the progress shown in the terminal has remained stationary for a long time.
+The poem generator was implemented as an enc-dec model with attention mechanism.
+To train it, type the following command:
 
-Then, generate the word embedding data using gensim Word2Vec model:
+  ./train.py -g
 
-    python word2vec.py
+You can also choose to train the both models altogther by running:
 
-Now, type the following command and wait for several hours:
+  ./train.py -a
 
-    python train.py
+To erase all trained models, run:
 
-![train](img/train.png)
+  ./train.py --clean
+
+
+As it turned out, the attention-based generator model after refactor
+was really hard to train well.
+From my side, the average loss will typically stuck at ~5.6
+and won't go down any more.
+There should be considerable space to improve it.
 
 ## Run Tests
 
-Start the user interaction program in a terminal once the training has finished:
+Type the following command:
 
-    python main.py
+  ./main.py
 
-Type in an input sentence each time and the poem generator will create a poem for you.
+Then each time you type in a hint text in Chinese,
+it should return a kind of gibberish poem.
+It's up to you to decide how to improve the models and training methods
+to make them work better.
 
-![main](img/main.png)
+## How to Improve This
 
-## Note
-[1] The planning-based poem generation workflow is adopted from 
-[Zhe Wang et al. <i>Chinese Poetry Generation with Planning based Neural Network</i>. 2016](https://arxiv.org/abs/1610.09889),
-yet I made two simplifications here.
+* To add data processing tools, consider adding dependency configs into
+\_\_dependency\_dict in [paths.py](./paths.py).
+It helps you to update processed data when it goes stale.
 
-Firstly, instead of using the attention-based RNN enc-dec model that the paper put forward,
-I simply employed the plain-vanilla seq2seq model in generate.py.
+* To improve the planning model,
+please refine the planner class in [plan.py](./plan.py).
 
-Secondly, I used the word2vec model for poem planning in plan.py instead of training an RNN language model
-as the paper specified.
+* To improve  the generation model,
+please refine the generator class in [generate.py](./generate.py).
 
-Future efforts can be made in those two scripts in order to improve the performance of poem planning or generation.
