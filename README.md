@@ -12,7 +12,7 @@ ideas on this interesting task.
 
 By Jun 2018, this project has been refactored into Python3 using TensorFlow 1.8.
 
-## Structure of Code
+## Code Organization
 
 ![Structure of Code](img/structure.jpg)
 
@@ -24,7 +24,7 @@ Batch processing is only done when the produced result
 is either missing or outdated.
 
 
-## Package Dependencies
+## Dependencies
 
 * Python 3.6.5
 
