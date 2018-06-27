@@ -3,23 +3,23 @@
 A classical Chinese quatrain generator based on the RNN encoder-decoder framework.
 
 Here I tried to implement the planning-based architecture purposed in 
-[Zhe Wang et al. <i>Chinese Poetry Generation with Planning based Neural Network</i>. 2016](https://arxiv.org/abs/1610.09889),
+[Wang et al. 2016](https://arxiv.org/abs/1610.09889),
 whereas technical details might be different from the original paper.
-My intent of doing this was not to refine the neural network model and give better results by myself.
+My purpose of making this was not to refine the neural network model and give better results by myself.
 Rather, I wish to <b>provide a simple framework as said in the paper along with
-convenient data processing toolkits</b> for all those want to experiment their
+convenient data processing toolkits</b> for all those who want to experiment their
 ideas on this interesting task.
 
-The project was refactored into Python3 in Jun 2018 using TensorFlow 1.8.
+By Jun 2018, this project has been refactored into Python3 using TensorFlow 1.8.
 
 ## Structure of Code
 
 ![Structure of Code](img/structure.jpg)
 
-The diagram above demonstrates primary data and code dependencies
-of this project.
+The diagram above illustrates major dependencies in
+this codebase in terms of either data or functionalities.
 Here I tried to organize code around data,
-and make every data processing module a singleton.
+and make every data processing module a singleton at runtime.
 Batch processing is only done when the produced result
 is either missing or outdated.
 
@@ -41,7 +41,7 @@ Python 3.6.5
 
 Run the following command to generate training data from source text data:
 
-  ./data\_utils.py
+    ./data\_utils.py
 
 Depending on your hardware, this can take you a cup of tea or over one hour.
 The keyword extraction is based on the TextRank algorithm,
@@ -52,20 +52,20 @@ which can take a long time to converge.
 The poem planner was based on Gensim's Word2Vec module.
 To train it, simply run:
 
-  ./train.py -p
+    ./train.py -p
 
 The poem generator was implemented as an enc-dec model with attention mechanism.
 To train it, type the following command:
 
-  ./train.py -g
+    ./train.py -g
 
-You can also choose to train the both models altogther by running:
+You can also choose to train the both models altogether by running:
 
-  ./train.py -a
+    ./train.py -a
 
 To erase all trained models, run:
 
-  ./train.py --clean
+    ./train.py --clean
 
 
 As it turned out, the attention-based generator model after refactor
@@ -78,7 +78,7 @@ There should be considerable space to improve it.
 
 Type the following command:
 
-  ./main.py
+    ./main.py
 
 Then each time you type in a hint text in Chinese,
 it should return a kind of gibberish poem.
@@ -89,7 +89,7 @@ to make them work better.
 
 * To add data processing tools, consider adding dependency configs into
 \_\_dependency\_dict in [paths.py](./paths.py).
-It helps you to update processed data when it goes stale.
+It helps you to automatically update processed data when it goes stale.
 
 * To improve the planning model,
 please refine the planner class in [plan.py](./plan.py).
