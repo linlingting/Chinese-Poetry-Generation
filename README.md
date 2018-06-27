@@ -41,7 +41,7 @@ is either missing or outdated.
 
 Run the following command to generate training data from source text data:
 
-    ./data\_utils.py
+    ./data_utils.py
 
 Depending on your hardware, this can take you a cup of tea or over one hour.
 The keyword extraction is based on the TextRank algorithm,
